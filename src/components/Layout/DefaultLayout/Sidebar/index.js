@@ -1,5 +1,7 @@
+import styles from "./Sidebar.module.scss";
+
 function SideBar() {
-    return <aside>Sidebar Component</aside>;
+    return <aside className={styles.inner}>Sidebar</aside>;
 }
 
 export default SideBar;

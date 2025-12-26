@@ -1,0 +1,9 @@
+.inner {
+    width: min(var(--default-layout-width), 100% - 32px);
+    margin: 0 auto;
+    display: flex;
+}
+
+.content {
+    flex: 1;
+}
