@@ -103,3 +103,27 @@
     margin-left: 16px;
     cursor: pointer;
 }
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.upload {
+    padding: 10px;
+    min-width: 30px;
+    cursor: pointer;
+
+    * {
+        font-size: 2.2rem;
+    }
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+}

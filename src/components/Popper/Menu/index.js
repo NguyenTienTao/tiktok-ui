@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Tippy from "@tippyjs/react/headless";
+import HeadlessTippy from "@tippyjs/react/headless";
 import styles from "./Menu.module.scss";
 import { PopperWrapper } from "../../Popper";
 import MenuItem from "./MenuItem";
@@ -21,6 +21,10 @@ function Menu({ children, items = [], onChange = () => {} }) {
         setHistory((prev) => prev.slice(0, prev.length - 1));
     };
 
+    const resetToFirstMenu = () => {
+        setHistory((prev) => prev.slice(0, 1));
+    };
+
     const renderItems = () => {
         return current.data.map((item, index) => (
             <MenuItem key={index} data={item} onNext={handleClickMenuItem} />
@@ -28,10 +32,12 @@ function Menu({ children, items = [], onChange = () => {} }) {
     };
 
     return (
-        <Tippy
+        <HeadlessTippy
             interactive={true}
             delay={[0, 600]}
+            offset={[12, 8]}
             placement="bottom-end"
+            onHide={resetToFirstMenu}
             render={(attrs) => {
                 return (
                     <div
@@ -53,7 +59,7 @@ function Menu({ children, items = [], onChange = () => {} }) {
             }}
         >
             {children}
-        </Tippy>
+        </HeadlessTippy>
     );
 }
 
