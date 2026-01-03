@@ -15,3 +15,25 @@
         }
     }
 }
+
+.menu-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-top: -8px;
+}
+
+.back {
+    width: 50px;
+    height: 50px;
+    font-size: 1.8rem;
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+.header-title {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+}

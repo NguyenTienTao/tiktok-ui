@@ -1,11 +1,30 @@
+import { useState } from "react";
 import Tippy from "@tippyjs/react/headless";
 import styles from "./Menu.module.scss";
 import { PopperWrapper } from "../../Popper";
 import MenuItem from "./MenuItem";
+import Header from "./Header";
 
-function Menu({ children, items = [] }) {
+function Menu({ children, items = [], onChange = () => {} }) {
+    const [history, setHistory] = useState([{ data: items }]);
+    const current = history[history.length - 1];
+
+    const handleClickMenuItem = (item) => {
+        if (item.children) {
+            setHistory((prev) => [...prev, item.children]);
+        } else {
+            onChange(item);
+        }
+    };
+
+    const handleBackMenu = () => {
+        setHistory((prev) => prev.slice(0, prev.length - 1));
+    };
+
     const renderItems = () => {
-        return items.map((item, index) => <MenuItem key={index} data={item} />);
+        return current.data.map((item, index) => (
+            <MenuItem key={index} data={item} onNext={handleClickMenuItem} />
+        ));
     };
 
     return (
@@ -21,6 +40,12 @@ function Menu({ children, items = [] }) {
                         {...attrs}
                     >
                         <PopperWrapper className={styles["menu-more"]}>
+                            {history.length > 1 && (
+                                <Header
+                                    title={current.title}
+                                    onBack={handleBackMenu}
+                                />
+                            )}
                             {renderItems()}
                         </PopperWrapper>
                     </div>
