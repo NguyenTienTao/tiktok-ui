@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -56,8 +56,6 @@ const MENU_ITEMS = [
 ];
 
 function Header() {
-    const [searchResult, setSearchResult] = useState([]);
-
     const currentUser = true;
 
     const userMenu = [
@@ -91,53 +89,8 @@ function Header() {
                 {/* ------ Logo ------- */}
                 <Logo />
                 {/* ------ Search ------- */}
-                <HeadlessTippy
-                    interactive={true}
-                    visible={searchResult.length > 0}
-                    render={(attrs) => {
-                        return (
-                            <div
-                                className={styles["search-result"]}
-                                tabIndex={-1}
-                                {...attrs}
-                            >
-                                <PopperWrapper>
-                                    <h4
-                                        className={clsx(styles["search-title"])}
-                                    >
-                                        Accounts
-                                    </h4>
-                                    <ul>
-                                        <li>
-                                            <AvatarItem />
-                                            <AvatarItem />
-                                            <AvatarItem />
-                                            <AvatarItem />
-                                        </li>
-                                    </ul>
-                                </PopperWrapper>
-                            </div>
-                        );
-                    }}
-                >
-                    <div className={styles.search}>
-                        <input
-                            type="text"
-                            spellCheck={false}
-                            placeholder="Search accounts and videos"
-                            className={clsx(styles["search-input"])}
-                        />
-                        <button className={styles.clear}>
-                            <FontAwesomeIcon icon={faCircleXmark} />
-                        </button>
-                        <button className={styles.loading}>
-                            <FontAwesomeIcon icon={faSpinner} />
-                        </button>
-                        <button className={clsx(styles["search-button"])}>
-                            <FontAwesomeIcon icon={faMagnifyingGlass} />
-                        </button>
-                    </div>
-                </HeadlessTippy>
+                <Search />
+
                 {/* ------ Action ------- */}
                 <div className={styles.actions}>
                     {currentUser ? (
@@ -172,6 +125,100 @@ function Header() {
                 </div>
             </div>
         </header>
+    );
+}
+
+function Search() {
+    const [showResult, setShowResult] = useState(true);
+    const [searchLoading, setSearchLoading] = useState(false);
+    const [searchResult, setSearchResult] = useState([]);
+    const [searchValue, setSearchValue] = useState("");
+
+    const input = useRef();
+
+    useEffect(() => {
+        if (!searchValue.trim()) {
+            setSearchResult([]);
+            return;
+        }
+        // Simulate fetching search results
+        const fetch = setTimeout(() => {
+            setSearchResult([1, 2, 3]);
+            setSearchLoading(false);
+        }, 500);
+
+        return () => clearTimeout(fetch);
+    }, [searchValue]);
+
+    const handleHideResult = () => {
+        setShowResult(false);
+    };
+
+    return (
+        <HeadlessTippy
+            interactive={true}
+            visible={searchResult.length > 0 && showResult}
+            onClickOutside={handleHideResult}
+            render={(attrs) => {
+                return (
+                    <div
+                        className={styles["search-result"]}
+                        tabIndex={-1}
+                        {...attrs}
+                    >
+                        <PopperWrapper>
+                            <h4 className={clsx(styles["search-title"])}>
+                                Accounts
+                            </h4>
+                            <ul>
+                                <li>
+                                    <AvatarItem />
+                                    <AvatarItem />
+                                    <AvatarItem />
+                                    <AvatarItem />
+                                </li>
+                            </ul>
+                        </PopperWrapper>
+                    </div>
+                );
+            }}
+        >
+            <div className={styles.search}>
+                <input
+                    ref={input}
+                    value={searchValue}
+                    type="text"
+                    spellCheck={false}
+                    placeholder="Search accounts and videos"
+                    className={clsx(styles["search-input"])}
+                    onChange={(e) => {
+                        const value = e.target.value;
+                        setSearchLoading(!!value.trim());
+                        setSearchValue(value);
+                    }}
+                    onFocus={() => setShowResult(true)}
+                />
+                {searchValue && !searchLoading && (
+                    <button
+                        className={styles.clear}
+                        onClick={() => {
+                            setSearchValue("");
+                            input.current.focus();
+                        }}
+                    >
+                        <FontAwesomeIcon icon={faCircleXmark} />
+                    </button>
+                )}
+                {searchLoading && (
+                    <button className={styles.loading}>
+                        <FontAwesomeIcon icon={faSpinner} />
+                    </button>
+                )}
+                <button className={clsx(styles["search-button"])}>
+                    <FontAwesomeIcon icon={faMagnifyingGlass} />
+                </button>
+            </div>
+        </HeadlessTippy>
     );
 }
 
