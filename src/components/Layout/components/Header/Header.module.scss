@@ -98,6 +98,19 @@
     background: transparent;
 }
 
+.loading {
+    animation: spinner 0.8s linear infinite;
+}
+
+@keyframes spinner {
+    from {
+        transform: translateY(-50%) rotate(0);
+    }
+    to {
+        transform: translateY(-50%) rotate(360deg);
+    }
+}
+
 .more {
     font-size: 2rem;
     margin-left: 16px;

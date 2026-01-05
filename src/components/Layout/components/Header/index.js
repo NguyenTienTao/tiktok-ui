@@ -141,13 +141,31 @@ function Search() {
             setSearchResult([]);
             return;
         }
-        // Simulate fetching search results
-        const fetch = setTimeout(() => {
-            setSearchResult([1, 2, 3]);
-            setSearchLoading(false);
-        }, 500);
 
-        return () => clearTimeout(fetch);
+        const debounce = setTimeout(() => {
+            const fetchUser = async () => {
+                try {
+                    const api = async () => {
+                        return fetch(
+                            `https://jsonplaceholder.typicode.com/users?q=${encodeURIComponent(
+                                searchValue
+                            )}`
+                        )
+                            .then((res) => res.json())
+                            .then((res) => setSearchResult(res.slice(0, 5)));
+                    };
+
+                    await api();
+                } catch (error) {
+                    console.error(error);
+                } finally {
+                    setSearchLoading(false);
+                }
+            };
+            fetchUser();
+        }, 300);
+
+        return () => clearTimeout(debounce);
     }, [searchValue]);
 
     const handleHideResult = () => {
@@ -171,12 +189,13 @@ function Search() {
                                 Accounts
                             </h4>
                             <ul>
-                                <li>
-                                    <AvatarItem />
-                                    <AvatarItem />
-                                    <AvatarItem />
-                                    <AvatarItem />
-                                </li>
+                                {searchResult.map((user) => {
+                                    return (
+                                        <li key={user.id}>
+                                            <AvatarItem user={user} />
+                                        </li>
+                                    );
+                                })}
                             </ul>
                         </PopperWrapper>
                     </div>
@@ -193,6 +212,10 @@ function Search() {
                     className={clsx(styles["search-input"])}
                     onChange={(e) => {
                         const value = e.target.value;
+                        if (value === " ") {
+                            setSearchValue("");
+                            return;
+                        }
                         setSearchLoading(!!value.trim());
                         setSearchValue(value);
                     }}
