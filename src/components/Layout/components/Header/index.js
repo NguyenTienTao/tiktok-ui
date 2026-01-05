@@ -19,6 +19,7 @@ import HeadlessTippy from "@tippyjs/react/headless";
 import "tippy.js/dist/tippy.css";
 
 import styles from "./Header.module.scss";
+import * as searchServices from "../../../../apiServices/searchServices.js";
 import { ReactComponent as Logo } from "../../../../assets/images/logo.svg";
 import { PopperWrapper } from "../../../Popper";
 import AvatarItem from "../../../AvatarItem";
@@ -145,17 +146,8 @@ function Search() {
         const debounce = setTimeout(() => {
             const fetchUser = async () => {
                 try {
-                    const api = async () => {
-                        return fetch(
-                            `https://jsonplaceholder.typicode.com/users?q=${encodeURIComponent(
-                                searchValue
-                            )}`
-                        )
-                            .then((res) => res.json())
-                            .then((res) => setSearchResult(res.slice(0, 5)));
-                    };
-
-                    await api();
+                    const res = await searchServices.search(searchValue);
+                    setSearchResult(res);
                 } catch (error) {
                     console.error(error);
                 } finally {
@@ -188,15 +180,9 @@ function Search() {
                             <h4 className={clsx(styles["search-title"])}>
                                 Accounts
                             </h4>
-                            <ul>
-                                {searchResult.map((user) => {
-                                    return (
-                                        <li key={user.id}>
-                                            <AvatarItem user={user} />
-                                        </li>
-                                    );
-                                })}
-                            </ul>
+                            {searchResult.map((user) => {
+                                return <AvatarItem key={user.id} user={user} />;
+                            })}
                         </PopperWrapper>
                     </div>
                 );
