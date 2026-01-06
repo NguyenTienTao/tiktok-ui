@@ -34,6 +34,8 @@ function Menu({ children, items = [], onChange = () => {} }) {
     return (
         <HeadlessTippy
             interactive={true}
+            hideOnClick={false}
+            visible
             delay={[0, 600]}
             offset={[12, 8]}
             placement="bottom-end"
@@ -52,7 +54,9 @@ function Menu({ children, items = [], onChange = () => {} }) {
                                     onBack={handleBackMenu}
                                 />
                             )}
-                            {renderItems()}
+                            <div className={styles["menu-body"]}>
+                                {renderItems()}
+                            </div>
                         </PopperWrapper>
                     </div>
                 );

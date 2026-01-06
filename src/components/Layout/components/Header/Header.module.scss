@@ -1,6 +1,9 @@
 .wrapper {
+    position: sticky;
+    top: 0;
     height: var(--default-layout-header-height);
     box-shadow: 0 1px 1px rgb(0 0 0 / 12%);
+    background: var(--white);
 }
 
 .inner {
@@ -10,6 +13,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
 }
 
 .search,

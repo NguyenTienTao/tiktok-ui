@@ -1,6 +1,8 @@
 .menu-more {
     width: 224px;
     padding-bottom: 8px;
+    display: flex;
+    flex-direction: column;
 
     .menu-item {
         height: 42px;
@@ -25,6 +27,10 @@
     display: flex;
     align-items: center;
     margin-top: -8px;
+}
+
+.menu-body {
+    overflow-y: auto;
 }
 
 .back {

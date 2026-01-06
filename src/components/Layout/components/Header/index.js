@@ -26,6 +26,7 @@ import AvatarItem from "../../../AvatarItem";
 import Button from "../../../Button";
 import Menu from "../../../Popper/Menu";
 import { faBitcoin } from "@fortawesome/free-brands-svg-icons";
+import { Link } from "react-router";
 
 const MENU_ITEMS = [
     {
@@ -34,6 +35,94 @@ const MENU_ITEMS = [
         children: {
             title: "Language",
             data: [
+                {
+                    code: "en",
+                    title: "English",
+                },
+                {
+                    code: "vi",
+                    title: "Tiếng Việt",
+                },
+                {
+                    code: "en",
+                    title: "English",
+                },
+                {
+                    code: "vi",
+                    title: "Tiếng Việt",
+                },
+                {
+                    code: "en",
+                    title: "English",
+                },
+                {
+                    code: "vi",
+                    title: "Tiếng Việt",
+                },
+                {
+                    code: "en",
+                    title: "English",
+                },
+                {
+                    code: "vi",
+                    title: "Tiếng Việt",
+                },
+                {
+                    code: "en",
+                    title: "English",
+                },
+                {
+                    code: "vi",
+                    title: "Tiếng Việt",
+                },
+                {
+                    code: "en",
+                    title: "English",
+                },
+                {
+                    code: "vi",
+                    title: "Tiếng Việt",
+                },
+                {
+                    code: "en",
+                    title: "English",
+                },
+                {
+                    code: "vi",
+                    title: "Tiếng Việt",
+                },
+                {
+                    code: "en",
+                    title: "English",
+                },
+                {
+                    code: "vi",
+                    title: "Tiếng Việt",
+                },
+                {
+                    code: "en",
+                    title: "English",
+                },
+                {
+                    code: "vi",
+                    title: "Tiếng Việt",
+                },
+                {
+                    code: "en",
+                    title: "English",
+                },
+                {
+                    code: "vi",
+                    title: "Tiếng Việt",
+                },
+                {
+                    code: "en",
+                    title: "English",
+                },
+                {
+                    code: "vi",
+                    title: "Tiếng Việt",
+                },
                 {
                     code: "en",
                     title: "English",
@@ -88,7 +177,9 @@ function Header() {
         <header className={styles.wrapper}>
             <div className={styles.inner}>
                 {/* ------ Logo ------- */}
-                <Logo />
+                <Link to="/" className={styles.logo}>
+                    <Logo />
+                </Link>
                 {/* ------ Search ------- */}
                 <Search />
 
@@ -198,7 +289,7 @@ function Search() {
                     className={clsx(styles["search-input"])}
                     onChange={(e) => {
                         const value = e.target.value;
-                        if (value === " ") {
+                        if (value.startsWith(" ")) {
                             setSearchValue("");
                             return;
                         }
