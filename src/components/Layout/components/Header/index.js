@@ -19,7 +19,7 @@ import HeadlessTippy from "@tippyjs/react/headless";
 import "tippy.js/dist/tippy.css";
 
 import styles from "./Header.module.scss";
-import * as searchServices from "../../../../apiServices/searchServices.js";
+import * as searchService from "../../../../services/searchService";
 import { ReactComponent as Logo } from "../../../../assets/images/logo.svg";
 import { PopperWrapper } from "../../../Popper";
 import AvatarItem from "../../../AvatarItem";
@@ -237,7 +237,7 @@ function Search() {
         const debounce = setTimeout(() => {
             const fetchUser = async () => {
                 try {
-                    const res = await searchServices.search(searchValue);
+                    const res = await searchService.search(searchValue);
                     setSearchResult(res);
                 } catch (error) {
                     console.error(error);
@@ -256,69 +256,73 @@ function Search() {
     };
 
     return (
-        <HeadlessTippy
-            interactive={true}
-            visible={searchResult.length > 0 && showResult}
-            onClickOutside={handleHideResult}
-            render={(attrs) => {
-                return (
-                    <div
-                        className={styles["search-result"]}
-                        tabIndex={-1}
-                        {...attrs}
-                    >
-                        <PopperWrapper>
-                            <h4 className={clsx(styles["search-title"])}>
-                                Accounts
-                            </h4>
-                            {searchResult.map((user) => {
-                                return <AvatarItem key={user.id} user={user} />;
-                            })}
-                        </PopperWrapper>
-                    </div>
-                );
-            }}
-        >
-            <div className={styles.search}>
-                <input
-                    ref={input}
-                    value={searchValue}
-                    type="text"
-                    spellCheck={false}
-                    placeholder="Search accounts and videos"
-                    className={clsx(styles["search-input"])}
-                    onChange={(e) => {
-                        const value = e.target.value;
-                        if (value.startsWith(" ")) {
-                            setSearchValue("");
-                            return;
-                        }
-                        setSearchLoading(!!value.trim());
-                        setSearchValue(value);
-                    }}
-                    onFocus={() => setShowResult(true)}
-                />
-                {searchValue && !searchLoading && (
-                    <button
-                        className={styles.clear}
-                        onClick={() => {
-                            setSearchValue("");
-                            input.current.focus();
+        <div>
+            <HeadlessTippy
+                interactive={true}
+                visible={searchResult.length > 0 && showResult}
+                onClickOutside={handleHideResult}
+                render={(attrs) => {
+                    return (
+                        <div
+                            className={styles["search-result"]}
+                            tabIndex={-1}
+                            {...attrs}
+                        >
+                            <PopperWrapper>
+                                <h4 className={clsx(styles["search-title"])}>
+                                    Accounts
+                                </h4>
+                                {searchResult.map((user) => {
+                                    return (
+                                        <AvatarItem key={user.id} user={user} />
+                                    );
+                                })}
+                            </PopperWrapper>
+                        </div>
+                    );
+                }}
+            >
+                <div className={styles.search}>
+                    <input
+                        ref={input}
+                        value={searchValue}
+                        type="text"
+                        spellCheck={false}
+                        placeholder="Search accounts and videos"
+                        className={clsx(styles["search-input"])}
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            if (value.startsWith(" ")) {
+                                setSearchValue("");
+                                return;
+                            }
+                            setSearchLoading(!!value.trim());
+                            setSearchValue(value);
                         }}
-                    >
-                        <FontAwesomeIcon icon={faCircleXmark} />
+                        onFocus={() => setShowResult(true)}
+                    />
+                    {searchValue && !searchLoading && (
+                        <button
+                            className={styles.clear}
+                            onClick={() => {
+                                setSearchValue("");
+                                input.current.focus();
+                            }}
+                        >
+                            <FontAwesomeIcon icon={faCircleXmark} />
+                        </button>
+                    )}
+                    {searchLoading && (
+                        <button className={styles.loading}>
+                            <FontAwesomeIcon icon={faSpinner} />
+                        </button>
+                    )}
+                    <button className={clsx(styles["search-button"])}>
+                        <FontAwesomeIcon icon={faMagnifyingGlass} />
                     </button>
-                )}
-                {searchLoading && (
-                    <button className={styles.loading}>
-                        <FontAwesomeIcon icon={faSpinner} />
-                    </button>
-                )}
-                <button className={clsx(styles["search-button"])}>
-                    <FontAwesomeIcon icon={faMagnifyingGlass} />
-                </button>
-            </div>
-        </HeadlessTippy>
+                </div>
+            </HeadlessTippy>
+        </div>
     );
 }
 

@@ -35,7 +35,6 @@ function Menu({ children, items = [], onChange = () => {} }) {
         <HeadlessTippy
             interactive={true}
             hideOnClick={false}
-            visible
             delay={[0, 600]}
             offset={[12, 8]}
             placement="bottom-end"
