@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import styles from "./AvatarItem.module.scss";
@@ -27,5 +28,9 @@ function AvatarItem({ user }) {
         </div>
     );
 }
+
+AvatarItem.propTypes = {
+    user: PropTypes.object,
+};
 
 export default AvatarItem;

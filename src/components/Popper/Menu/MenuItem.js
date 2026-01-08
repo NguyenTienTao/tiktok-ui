@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import clsx from "clsx";
 import Button from "../../Button";
 import styles from "./Menu.module.scss";
@@ -17,5 +18,10 @@ function MenuItem({ data, onNext }) {
         </Button>
     );
 }
+
+MenuItem.propTypes = {
+    data: PropTypes.object.isRequired,
+    onNext: PropTypes.func,
+};
 
 export default MenuItem;
