@@ -1,0 +1,50 @@
+.label {
+    color: rgb(22, 24, 35, 0.75);
+    font-size: 1.4rem;
+    line-height: 20px;
+    padding: 0 8px;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.account-item {
+    display: flex;
+    padding: 8px;
+}
+
+.account-avatar {
+    margin-right: 12px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.account-info {
+    flex: 1;
+}
+
+.account-name {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 1.6rem;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.tick-icon {
+    font-size: 1.4rem;
+    color: #20d5ec;
+}
+
+.account-username {
+    font-size: 1.2rem;
+}
+
+.more-btn {
+    font-size: 1.4rem;
+    color: #fe2c05;
+    padding: 8px;
+    font-weight: 700;
+}

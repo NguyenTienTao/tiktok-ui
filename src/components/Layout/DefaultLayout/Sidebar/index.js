@@ -9,6 +9,8 @@ import config from "../../../../config";
 import Menu from "./Menu";
 import MenuItem from "./Menu/MenuItem";
 import styles from "./Sidebar.module.scss";
+import SuggestedAccounts from "../../../SuggestedAccounts";
+import clsx from "clsx";
 
 function SideBar() {
     return (
@@ -30,6 +32,14 @@ function SideBar() {
                     icon={<FontAwesomeIcon icon={faVideo} />}
                 />
             </Menu>
+
+            <div className={clsx(styles.separate)}></div>
+
+            <SuggestedAccounts label="Suggested accounts" />
+
+            <div className={clsx(styles.separate)}></div>
+
+            <SuggestedAccounts label="Following accounts" />
         </aside>
     );
 }
